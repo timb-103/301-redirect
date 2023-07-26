@@ -14,7 +14,7 @@
             type="text"
             v-model="subdomain"
             placeholder="Enter a subdomain (aka name), eg: acme"
-            pattern="[a-zA-Z0-9]*"
+            pattern="[a-zA-Z0-9-]"
           />
         </div>
         <div>
@@ -70,17 +70,20 @@ const subdomainHost = useSubdomain()
 if (subdomainHost) {
   // find the redirect
   const { data } = await useAsyncData('subdomain', async () => {
+    console.log('useasyncdata request:', subdomainHost)
     const response = await $fetch('/api/redirects/redirect', {
       method: 'POST',
       body: {
         subdomain: subdomainHost,
       },
     })
+    console.log('response:', response)
     return response?.url || null
   })
 
   // redirect if redirect found
   if (data.value) {
+    console.log('navigating to:', data.value)
     navigateTo(data.value, { external: true, redirectCode: 301 })
   }
 
@@ -102,6 +105,11 @@ async function create() {
     errors.value = 'Please enter a subdomain & URL.'
     return
   }
+
+  // if (!isValidString(subdomain.value)) {
+  //   errors.value = 'Only characters, numbers, and hyphens are allowed in your subdomain.'
+  //   return
+  // }
 
   loading.value = true
 
@@ -162,6 +170,13 @@ async function search() {
   }
 
   loading.value = false
+}
+
+// Regular expression to match only characters, numbers, and hyphens
+function isValidString(input: string): boolean {
+  const regex = /^[a-zA-Z0-9-]*$/
+
+  return regex.test(input)
 }
 
 onMounted(() => {

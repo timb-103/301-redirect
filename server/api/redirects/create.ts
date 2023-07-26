@@ -5,6 +5,8 @@ export default defineEventHandler(async (event) => {
   const db = mongo.db()
   const { subdomain, url } = await readBody(event)
 
+  console.log(`Attempting to create a redirect for ${subdomain} -> ${url}`)
+
   // make sure details are there
   if (!subdomain || !url) {
     throw createError({

@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
         }
       )
 
-      // redirect the user
+      // return success
       return redirect
     }
   } catch (error) {

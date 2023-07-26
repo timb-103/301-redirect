@@ -28,8 +28,8 @@ export default defineEventHandler(async (event) => {
     // create the redirect
     const redirect: Redirect = {
       _id: new ObjectId(),
-      subdomain,
-      url,
+      subdomain: subdomain.toLowerCase(),
+      url: url.toLowerCase(),
       hits: 0,
       created: new Date(),
     }

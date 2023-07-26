@@ -144,8 +144,8 @@ async function create() {
     const response = await $fetch<Redirect>('/api/redirects/create', {
       method: 'POST',
       body: {
-        subdomain: subdomain.value,
-        url: url.value,
+        subdomain: subdomain.value.toLowerCase(),
+        url: url.value.toLowerCase(),
       },
     })
 

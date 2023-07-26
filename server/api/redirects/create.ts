@@ -1,5 +1,5 @@
-import type { Redirect } from "@/types/redirect"
-import { ObjectId } from "mongodb"
+import type { Redirect } from '@/types/redirect'
+import { ObjectId } from 'mongodb'
 
 export default defineEventHandler(async (event) => {
   const db = mongo.db()
@@ -9,11 +9,20 @@ export default defineEventHandler(async (event) => {
   if (!subdomain || !url) {
     throw createError({
       statusCode: 400,
-      statusMessage: "Error creating redirect. Please enter a subdomain & url.",
+      statusMessage: 'Error creating redirect. Please enter a subdomain & url.',
     })
   }
 
   try {
+    // check if it exists already
+    const exists = await db.collection('Redirects').findOne({ subdomain })
+    if (exists) {
+      return createError({
+        statusCode: 400,
+        statusMessage: 'Redirect already exists. Pick another subdomain name.',
+      })
+    }
+
     // create the redirect
     const redirect: Redirect = {
       _id: new ObjectId(),
@@ -24,17 +33,17 @@ export default defineEventHandler(async (event) => {
     }
 
     // insert the redirect to db
-    await db.collection("Redirects").insertOne(redirect)
+    await db.collection('Redirects').insertOne(redirect)
 
     // return the redirect
     return redirect
   } catch (error) {
-    console.log("Error creating redirect:", error)
+    console.log('Error creating redirect:', error)
   }
 
   // return an error
   throw createError({
     statusCode: 400,
-    statusMessage: "Error creating redirect.",
+    statusMessage: 'Error creating redirect.',
   })
 })

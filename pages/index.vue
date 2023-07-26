@@ -16,7 +16,7 @@
           <label>2. Redirect to URL</label>
           <input type="text" v-model="url" placeholder="Enter a URL to redirect to, eg: https://acme.com" />
         </div>
-        <p v-if="errors">{{ errors }}</p>
+        <p class="errors" v-if="errors">{{ errors }}</p>
         <button type="submit" :disabled="loading" class="button">Create Redirect</button>
       </form>
 
@@ -46,7 +46,7 @@
         <a href="" @click.prevent="showSearch = !showSearch">Looking for your redirect?</a>
         <div class="search" v-if="showSearch">
           <input type="text" v-model="searchQuery" placeholder="Enter your redirect subdomain/name, eg. acme" />
-          <p v-if="searchErrors">{{ searchErrors }}</p>
+          <p class="errors" v-if="searchErrors">{{ searchErrors }}</p>
           <button class="button" @click="search()" :disabled="loading">Search</button>
         </div>
       </div>
@@ -62,15 +62,6 @@
           a redirect and add a CNAME to your domain registrar.
         </p>
       </div>
-      <!-- <div>
-        <p class="info-title">How does it work?</p>
-        <ol>
-          <li>Create a redirect in the form above</li>
-          <li>Add the CNAME record pointing to your website (it will show after you create a redirect)</li>
-          <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
-        </ol>
-        <p>Now, all the traffic to your website will get 301 redirected to your URL.</p>
-      </div> -->
     </div>
   </div>
 </template>
@@ -88,20 +79,17 @@ const subdomainHost = useSubdomain()
 if (subdomainHost) {
   // find the redirect
   const { data } = await useAsyncData('subdomain', async () => {
-    console.log('useasyncdata request:', subdomainHost)
     const response = await $fetch('/api/redirects/redirect', {
       method: 'POST',
       body: {
         subdomain: subdomainHost,
       },
     })
-    console.log('response:', response)
     return response?.url || null
   })
 
   // redirect if redirect found
   if (data.value) {
-    console.log('navigating to:', data.value)
     navigateTo(data.value, { external: true, redirectCode: 301 })
   }
 
@@ -212,7 +200,6 @@ function isValidURL(input: string): boolean {
 }
 
 function openURL(value: string) {
-  console.log(value)
   window.open(value, '_blank')
 }
 
@@ -230,22 +217,17 @@ body {
     Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   line-height: 1.7em;
 }
-p {
-  margin: 0;
-}
 </style>
 
 <style scoped>
+/** Containers */
 .container {
   max-width: 600px;
   margin: 60px auto;
   border: 1px solid var(--grey);
 }
 
-.title {
-  text-align: center;
-}
-
+/** Anchor Links */
 a {
   color: #000;
   border-bottom: 1px dashed #000;
@@ -257,6 +239,16 @@ a:hover {
   border-bottom: 1px solid #000;
 }
 
+/** Text */
+
+p {
+  margin: 0;
+}
+.title {
+  text-align: center;
+}
+
+/** Forms & Inputs */
 .form-container {
   display: flex;
   flex-direction: column;
@@ -291,6 +283,7 @@ input {
   box-sizing: border-box;
 }
 
+/** Buttons */
 .button {
   background: #000;
   color: #fff;
@@ -312,6 +305,8 @@ input {
 button:disabled {
   opacity: 0.4;
 }
+
+/** Code Blocks */
 code {
   background: #fff;
   border-radius: 3px;
@@ -367,13 +362,10 @@ li + li {
 
 /** Info */
 .info {
-  /* background: #fafafa; */
-  /* border-radius: 8px; */
   margin-top: 40px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* padding: 10px; */
 }
 .info > div {
   display: flex;
@@ -385,5 +377,14 @@ li + li {
 }
 .info-title {
   font-weight: 600;
+}
+
+/** Errors */
+.errors {
+  background: #ffe8de;
+  border-radius: 4px;
+  color: red;
+  text-align: center;
+  padding: 2px 8px;
 }
 </style>

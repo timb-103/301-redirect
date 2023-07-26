@@ -27,6 +27,6 @@ export default defineEventHandler(async (event) => {
   // return an error
   throw createError({
     statusCode: 400,
-    statusMessage: 'Error creating redirect.',
+    statusMessage: 'Error getting redirect.',
   })
 })

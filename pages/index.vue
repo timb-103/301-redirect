@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="title">
-      <h1>301 Redirect</h1>
-      <p>Create free 301 redirects for your websites. Free & open source.</p>
+      <h1>301 Redirect Tool</h1>
+      <p>Create free 301 redirects for your websites. 100% free & open source.</p>
     </div>
 
     <div class="form-container">
@@ -10,12 +10,7 @@
       <form @submit.prevent="create()">
         <div>
           <label>1. Enter a name</label>
-          <input
-            type="text"
-            v-model="subdomain"
-            placeholder="Enter a subdomain (aka name), eg: acme"
-            pattern="[a-zA-Z0-9-]"
-          />
+          <input type="text" v-model="subdomain" placeholder="Enter a subdomain (aka name), eg: acme" />
         </div>
         <div>
           <label>2. Redirect to URL</label>
@@ -29,7 +24,9 @@
       <div class="success" v-if="redirect">
         <p class="success-title">Your redirect is now live:</p>
         <div>
-          <code>https://{{ redirect.subdomain }}.301redirect.to</code> 301 redirects to <code>{{ redirect.url }}</code>
+          <!-- prettier-ignore -->
+          <code class="code-clickable" @click="openURL(`https://${redirect.subdomain}.301redirect.to`)">https://{{ redirect.subdomain }}.301redirect.to</code>
+          301 redirects to <code>{{ redirect.url }}</code>
         </div>
         <div class="how">
           <p class="success-title">How does it work?</p>
@@ -53,6 +50,27 @@
           <button class="button" @click="search()" :disabled="loading">Search</button>
         </div>
       </div>
+    </div>
+
+    <!-- How it works -->
+    <div class="info">
+      <div>
+        <p class="info-title">Why use this 301 redirect tool?</p>
+        <p>
+          Creating a 301 redirect requires having a server running, that points your website to another URL. This
+          requires you to host a server online somewhere. Using this tool, there's no need to host anything, just create
+          a redirect and add a CNAME to your domain registrar.
+        </p>
+      </div>
+      <!-- <div>
+        <p class="info-title">How does it work?</p>
+        <ol>
+          <li>Create a redirect in the form above</li>
+          <li>Add the CNAME record pointing to your website (it will show after you create a redirect)</li>
+          <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
+        </ol>
+        <p>Now, all the traffic to your website will get 301 redirected to your URL.</p>
+      </div> -->
     </div>
   </div>
 </template>
@@ -101,15 +119,24 @@ const showSearch = ref(false)
 const searchQuery = ref('')
 
 async function create() {
+  errors.value = ''
+  redirect.value = null
+  navigateTo('/')
+
   if (!url.value || !subdomain.value) {
     errors.value = 'Please enter a subdomain & URL.'
     return
   }
 
-  // if (!isValidString(subdomain.value)) {
-  //   errors.value = 'Only characters, numbers, and hyphens are allowed in your subdomain.'
-  //   return
-  // }
+  if (!isValidSubdomain(subdomain.value)) {
+    errors.value = 'Only characters, numbers, and hyphens are allowed in your subdomain.'
+    return
+  }
+
+  if (!isValidURL(url.value)) {
+    errors.value = 'URL must start with https://'
+    return
+  }
 
   loading.value = true
 
@@ -167,16 +194,26 @@ async function search() {
   } catch (error: any) {
     searchErrors.value = error.statusMessage
     redirect.value = null
+    navigateTo('/')
   }
 
   loading.value = false
 }
 
 // Regular expression to match only characters, numbers, and hyphens
-function isValidString(input: string): boolean {
+function isValidSubdomain(input: string): boolean {
   const regex = /^[a-zA-Z0-9-]*$/
 
   return regex.test(input)
+}
+
+function isValidURL(input: string): boolean {
+  return input.includes('https://')
+}
+
+function openURL(value: string) {
+  console.log(value)
+  window.open(value, '_blank')
 }
 
 onMounted(() => {
@@ -207,6 +244,17 @@ p {
 
 .title {
   text-align: center;
+}
+
+a {
+  color: #000;
+  border-bottom: 1px dashed #000;
+  padding-bottom: 2px;
+  text-decoration: none;
+  transition: border 0.3s;
+}
+a:hover {
+  border-bottom: 1px solid #000;
 }
 
 .form-container {
@@ -272,6 +320,14 @@ code {
   white-space: pre-line;
   border: 1px solid #ededed;
 }
+.code-clickable {
+  border: 1px dashed #000;
+  cursor: pointer;
+  transition: border 0.3s;
+}
+.code-clickable:hover {
+  border: 1px solid #000;
+}
 
 /** Success Container */
 .success {
@@ -297,11 +353,7 @@ li + li {
   text-align: center;
 }
 .search-container > a {
-  color: #000;
   font-size: 15px;
-  border-bottom: 1px dashed #000;
-  padding-bottom: 2px;
-  text-decoration: none;
   text-align: center;
 }
 .search {
@@ -311,5 +363,27 @@ li + li {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+/** Info */
+.info {
+  /* background: #fafafa; */
+  /* border-radius: 8px; */
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* padding: 10px; */
+}
+.info > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.info > div > ol {
+  margin-top: 0;
+}
+.info-title {
+  font-weight: 600;
 }
 </style>

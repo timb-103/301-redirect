@@ -7,7 +7,7 @@
 
     <div class="form-container">
       <!-- Create Form -->
-      <form @submit.prevent="create()">
+      <form @submit.prevent="create()" v-if="!showSearch && !redirect">
         <div>
           <label>1. Enter a name</label>
           <input type="text" v-model="subdomain" placeholder="Enter a subdomain (aka name), eg: acme" />
@@ -18,36 +18,46 @@
         </div>
         <p class="errors" v-if="errors">{{ errors }}</p>
         <button type="submit" :disabled="loading" class="button">Create Redirect</button>
+        <div style="text-align: center">
+          <a href="" @click.prevent="showSearch = !showSearch">Looking for your redirect?</a>
+        </div>
       </form>
 
-      <!-- Success -->
-      <div class="success" v-if="redirect">
-        <p class="success-title">Your redirect is now live:</p>
-        <div>
-          <!-- prettier-ignore -->
-          <code class="code-clickable" @click="openURL(`https://${redirect.subdomain}.301redirect.to`)">https://{{ redirect.subdomain }}.301redirect.to</code>
-          301 redirects to <code>{{ redirect.url }}</code>
-        </div>
-        <div class="how">
-          <p class="success-title">How does it work?</p>
-          <ol>
-            <li>
-              Add a <code>CNAME</code> record pointing to
-              <code>https://{{ redirect.subdomain }}.301redirect.to</code> in your DNS settings via your domain
-              registrar.
-            </li>
-            <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
-          </ol>
-        </div>
-      </div>
-
       <!-- Search -->
-      <div class="search-container">
-        <a href="" @click.prevent="showSearch = !showSearch">Looking for your redirect?</a>
-        <div class="search" v-if="showSearch">
+      <div class="search-container" v-if="showSearch && !redirect">
+        <div class="search">
           <input type="text" v-model="searchQuery" placeholder="Enter your redirect subdomain/name, eg. acme" />
           <p class="errors" v-if="searchErrors">{{ searchErrors }}</p>
           <button class="button" @click="search()" :disabled="loading">Search</button>
+          <div class="back-button">
+            <a href="" @click.prevent="showSearch = false">Go Back</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div v-if="redirect">
+        <div class="success">
+          <p class="success-title">Your redirect is now live:</p>
+          <div>
+            <!-- prettier-ignore -->
+            <code class="code-clickable" @click="openURL(`https://${redirect.subdomain}.301redirect.to`)">https://{{ redirect.subdomain }}.301redirect.to</code>
+            301 redirects to <code>{{ redirect.url }}</code>
+          </div>
+          <div class="how">
+            <p class="success-title">How does it work?</p>
+            <ol>
+              <li>
+                Add a <code>CNAME</code> record pointing to
+                <code>https://{{ redirect.subdomain }}.301redirect.to</code> in your DNS settings via your domain
+                registrar.
+              </li>
+              <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="back-button">
+          <a href="" @click.prevent="clear()">Go Back</a>
         </div>
       </div>
     </div>
@@ -203,6 +213,11 @@ function openURL(value: string) {
   window.open(value, '_blank')
 }
 
+function clear() {
+  redirect.value = null
+  showSearch.value = false
+}
+
 onMounted(() => {
   if (useRoute().query?.redirect) {
     get(String(useRoute().query?.redirect))
@@ -305,6 +320,9 @@ input {
 button:disabled {
   opacity: 0.4;
 }
+.back-button {
+  text-align: center;
+}
 
 /** Code Blocks */
 code {
@@ -332,6 +350,7 @@ code {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-bottom: 20px;
 }
 .success-title {
   font-weight: 600;
@@ -347,12 +366,11 @@ li + li {
 .search-container {
   text-align: center;
 }
-.search-container > a {
+.search > a {
   font-size: 15px;
   text-align: center;
 }
 .search {
-  margin-top: 20px;
 }
 .search {
   display: flex;

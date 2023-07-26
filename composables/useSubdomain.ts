@@ -13,11 +13,11 @@ export default function useSubdomain() {
 
     console.log('host:', host)
 
-    let subdomainArr = host.split('.')
+    let subdomainArr = host.split(/[.:]+/)
 
     console.log('subdomainArr:', subdomainArr)
 
-    if (subdomainArr.length == 3 || subdomainArr.length == 2) {
+    if (subdomainArr.length >= 3) {
       slug = subdomainArr[0]
     }
   } catch (error) {

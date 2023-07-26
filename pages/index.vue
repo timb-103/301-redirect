@@ -79,6 +79,9 @@
 <script setup lang="ts">
 import { Redirect } from 'types/redirect'
 
+// add page meta
+useSeoMeta({ title: '301 Redirect Tool' })
+
 /**
  * Server side function to check the subdomain and if there's one search for it and do a
  * redirect otherwise return a 404 error

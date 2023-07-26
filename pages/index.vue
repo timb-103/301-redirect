@@ -10,7 +10,12 @@
       <form @submit.prevent="create()">
         <div>
           <label>1. Enter a name</label>
-          <input type="text" v-model="subdomain" placeholder="Enter a subdomain (aka name), eg: acme" />
+          <input
+            type="text"
+            v-model="subdomain"
+            placeholder="Enter a subdomain (aka name), eg: acme"
+            pattern="[a-zA-Z0-9]*"
+          />
         </div>
         <div>
           <label>2. Redirect to URL</label>

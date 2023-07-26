@@ -4,12 +4,18 @@ export default function useSubdomain() {
 
   try {
     const headers = useRequestHeaders()
+    console.log('process.server:', process.server)
     if (process.server) {
       host = headers['host']
     } else {
       host = window.location.host
     }
+
+    console.log('host:', host)
+
     let subdomainArr = host.split('.')
+
+    console.log('subdomainArr:', subdomainArr)
 
     if (subdomainArr.length == 3 || subdomainArr.length == 2) {
       slug = subdomainArr[0]

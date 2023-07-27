@@ -1,63 +1,40 @@
-# Nuxt 3 Minimal Starter
+# 301 Redirect Tool
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Create free 301 redirects for your websites using [nuxt-mongodb](https://github.com/timb-103/nuxt-mongodb) to store them in a free mongodb collection.
 
-## Setup
+## Why?
 
-Make sure to install the dependencies:
+- ✅ **100% free**, no login required
+- 💸 No need to host a server
+- 🤖 Great for **SEO**
 
-```bash
-# npm
-npm install
+Over the years I've acquired many websites and [301 redirected](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301) them to another website. Each time this requires setting up a server to host a simple redirect server to point the traffic somewhere else.
 
-# pnpm
-pnpm install
+This means for each website I want to redirect, I need to host a server, which costs money.
 
-# yarn
-yarn install
+**This tool will do the redirect for you.**
+
+All you do is add a [CNAME](https://en.wikipedia.org/wiki/CNAME_record) record in your domain registrar pointing to the subdomain you choose, and we'll automatically 301 redirect it for you.
+
+No need to host anything, and it's completely free!
+
+## Usage
+
+Clone the repo to your local:
+
+```sh
+git clone https://github.com/timb-103/301-redirect.git
 ```
 
-## Development Server
+Add your mongo connection string and main database name in your `.env` file:
 
-Start the development server on `http://localhost:3000`:
+```
+MONGO_CONNECTION_STRING=
+MONGO_DB=
+```
 
-```bash
-# npm
+Start your project
+
+```sh
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
 ```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

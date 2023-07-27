@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <h1>301 Redirect Tool</h1>
-      <p>Create free 301 redirects for your websites. 100% free & open source.</p>
+      <!-- prettier-ignore -->
+      <p>Create free 301 redirects for your websites. No login required & <a href="https://github.com/timb-103/301-redirect" target="_blank">open source</a>.</p>
     </div>
 
     <div class="form-container">
@@ -65,12 +66,33 @@
     <!-- How it works -->
     <div class="info">
       <div>
-        <p class="info-title">Why use this 301 redirect tool?</p>
+        <p><strong>Why use this 301 redirect tool?</strong></p>
+        <ul>
+          <li>✅ <strong>100% free</strong>, no login required</li>
+          <li>💸 No need to host a server</li>
+          <li>🤖 Great for <strong>SEO</strong></li>
+        </ul>
         <p>
-          Creating a 301 redirect requires having a server running, that points your website to another URL. This
-          requires you to host a server online somewhere. Using this tool, there's no need to host anything, just create
-          a redirect and add a CNAME to your domain registrar.
+          Over the years I've acquired many websites and
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301" target="_blank">
+            <strong>301 redirected</strong>
+          </a>
+          them to another website. Each time this requires setting up a server to host a simple redirect server to point
+          the traffic somewhere else.
         </p>
+        <p>This means for each website I want to redirect, I need to host a server, which costs money.</p>
+      </div>
+      <div>
+        <p><strong>This tool will do the redirect for you.</strong></p>
+        <p>
+          All you do is add a
+          <a href="https://en.wikipedia.org/wiki/CNAME_record" target="_blank">
+            <strong>CNAME</strong>
+          </a>
+          record in your domain registrar pointing to the subdomain you choose, and we'll automatically 301 redirect it
+          for you.
+        </p>
+        <p>No need to host anything, and it's completely free!</p>
       </div>
     </div>
   </div>
@@ -341,6 +363,13 @@ code {
   cursor: pointer;
   transition: border 0.3s;
 }
+code > a {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+code > a:hover {
+  border-bottom: 0;
+}
 .code-clickable:hover {
   border: 1px solid #000;
 }
@@ -397,7 +426,7 @@ li + li {
   margin-top: 0;
 }
 .info-title {
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /** Errors */

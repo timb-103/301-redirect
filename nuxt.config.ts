@@ -10,18 +10,21 @@ export default defineNuxtConfig({
         lang: 'en',
       },
       meta: [
-        { name: 'description', content: 'Create free 301 redirects for your websites. 100% free & open source.' },
+        {
+          name: 'description',
+          content: 'Create free 301 redirects for your websites. No login required & open source.',
+        },
         { property: 'title', content: '301 Redirect Tool' },
         {
           property: 'description',
-          content: 'Create free 301 redirects for your websites. 100% free & open source.',
+          content: 'Create free 301 redirects for your websites. No login required & open source.',
         },
         { property: 'og:title', content: '301 Redirect Tool' },
         { property: 'og:image', content: 'https://301redirect.to/images/og.jpg' },
         { property: 'og:image:alt', content: '301 Redirect Tool' },
         {
           property: 'og:description',
-          content: 'Create free 301 redirects for your websites. 100% free & open source.',
+          content: 'Create free 301 redirects for your websites. No login required & open source.',
         },
         { property: 'og:url', content: 'https://301redirect.to/images/og.jpg' },
         { property: 'og:type', content: 'website' },
@@ -31,7 +34,7 @@ export default defineNuxtConfig({
         { name: 'twitter:image', content: 'https://301redirect.to/images/og.jpg' },
         {
           name: 'twitter:description',
-          content: 'Create free 301 redirects for your websites. 100% free & open source.',
+          content: 'Create free 301 redirects for your websites. No login required & open source.',
         },
       ],
       script: [{ src: 'https://plausible.io/js/plausible.js', defer: true, 'data-domain': '301redirect.to' }],

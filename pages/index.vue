@@ -20,7 +20,7 @@
         <p class="errors" v-if="errors">{{ errors }}</p>
         <button type="submit" :disabled="loading" class="button">Create Redirect</button>
         <div style="text-align: center">
-          <a href="" @click.prevent="showSearch = !showSearch">Looking for your redirect?</a>
+          <a href="" @click.prevent="showSearch = true">Looking for your redirect?</a>
         </div>
       </form>
 
@@ -31,7 +31,7 @@
           <p class="errors" v-if="searchErrors">{{ searchErrors }}</p>
           <button class="button" @click="search()" :disabled="loading">Search</button>
           <div class="back-button">
-            <a href="" @click.prevent="showSearch = false">Go Back</a>
+            <a href="" @click.prevent="clear()">Go Back</a>
           </div>
         </div>
       </div>
@@ -241,6 +241,7 @@ function openURL(value: string) {
 function clear() {
   redirect.value = null
   showSearch.value = false
+  navigateTo('/')
 }
 
 onMounted(() => {

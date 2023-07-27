@@ -1,4 +1,4 @@
-# 301 Redirect Tool
+# [301 Redirect Tool](https://301redirect.to)
 
 Create free 301 redirects for your websites using [nuxt-mongodb](https://github.com/timb-103/nuxt-mongodb) to store them in a free mongodb collection.
 

@@ -104,6 +104,7 @@ import { Redirect } from 'types/redirect'
 useSeoMeta({ title: '301 Redirect Tool' })
 
 const loading = ref(false)
+const verified = ref(false)
 const subdomain = ref('')
 const url = ref('')
 const errors = ref('')
@@ -194,6 +195,45 @@ async function search() {
   loading.value = false
 }
 
+// async function verify() {
+//   console.log('verifying...')
+//   if (!redirect.value?.url) {
+//     return
+//   }
+
+//   loadingVerify.value = true
+//   verified.value = false
+
+//   try {
+//     let domain = redirect.value.url.replace('http://', '')
+//     domain = domain.replace('https://', '')
+//     domain = domain.replace('www.', '')
+
+//     const response = await $fetch<any>(`https://dns.google/resolve?type=CNAME&name=${domain}`)
+
+//     // return if no response
+//     if (!response?.Answer?.length) {
+//       loadingVerify.value = false
+//       return
+//     }
+
+//     // check all CNAME records, and get the subdomain if there's one for 301redirect.to
+//     for (let i = 0; i < response.Answer.length; i += 1) {
+//       const data = response.Answer[i].data
+//       if (data.includes('301redirect.to')) {
+//         const subdomain = data.split('.')[0]?.toLowerCase()
+//         if (subdomain === redirect.value?.subdomain) {
+//           verified.value = true
+//         }
+//       }
+//     }
+//   } catch (error) {
+//     console.log('Error verifying:', error)
+//   }
+
+//   loadingVerify.value = false
+// }
+
 // Regular expression to match only characters, numbers, and hyphens
 function isValidSubdomain(input: string): boolean {
   const regex = /^[a-zA-Z0-9-]*$/
@@ -205,13 +245,10 @@ function isValidURL(input: string): boolean {
   return input.includes('https://')
 }
 
-function openURL(value: string) {
-  window.open(value, '_blank')
-}
-
 function clear() {
   redirect.value = null
   showSearch.value = false
+  verified.value = false
   navigateTo('/')
 }
 

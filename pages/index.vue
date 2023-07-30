@@ -39,18 +39,18 @@
       <!-- Success -->
       <div v-if="redirect">
         <div class="success">
-          <p class="success-title">Your redirect is now live:</p>
+          <p class="success-title">Your redirect:</p>
           <div>
             <!-- prettier-ignore -->
-            <code class="code-clickable" @click="openURL(`https://${redirect.subdomain}.301redirect.to`)">https://{{ redirect.subdomain }}.301redirect.to</code>
-            301 redirects to <code>{{ redirect.url }}</code>
+            <code>https://{{ redirect.subdomain }}.301redirect.to</code> -> <code>{{ redirect.url }}</code>
           </div>
           <div class="how">
             <p class="success-title">How does it work?</p>
             <ol>
               <li>
-                Add a <code>CNAME</code> record pointing to <code>{{ redirect.subdomain }}.301redirect.to</code> in your
-                DNS settings via your domain registrar.
+                Add a <code>CNAME</code> record, with a <strong>host</strong> of <code>@</code> and
+                <strong>value</strong> of <code>{{ redirect.subdomain }}.301redirect.to</code> in your DNS settings via
+                your domain registrar.
               </li>
               <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
             </ol>

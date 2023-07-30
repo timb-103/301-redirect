@@ -146,7 +146,8 @@ async function create() {
 
     redirect.value = response
   } catch (error: any) {
-    errors.value = error.statusMessage
+    console.log('Error:', error.statusMessage || error.message)
+    errors.value = error.statusMessage || error.message
   }
 
   loading.value = false
@@ -166,7 +167,7 @@ async function get(name: string) {
 
     redirect.value = response
   } catch (error: any) {
-    errors.value = error.statusMessage
+    errors.value = error.statusMessage || error.message
   }
 
   loading.value = false
@@ -187,7 +188,7 @@ async function search() {
     redirect.value = response
     navigateTo(`/?redirect=${response.subdomain}`)
   } catch (error: any) {
-    searchErrors.value = error.statusMessage
+    searchErrors.value = error.statusMessage || error.message
     redirect.value = null
     navigateTo('/')
   }

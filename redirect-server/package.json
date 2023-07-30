@@ -1,0 +1,9 @@
+{
+  "name": "threadstart-redirect",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "mongodb": "^5.7.0",
+    "ofetch": "^1.1.1"
+  }
+}

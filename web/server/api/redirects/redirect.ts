@@ -4,6 +4,8 @@ export default defineEventHandler(async (event) => {
   const db = mongo.db()
   const { subdomain } = await readBody(event)
 
+  // dns.resolveTxt(domain, callback)
+
   console.log('Redirecting:', subdomain)
 
   try {

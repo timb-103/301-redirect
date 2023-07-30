@@ -49,9 +49,8 @@
             <p class="success-title">How does it work?</p>
             <ol>
               <li>
-                Add a <code>CNAME</code> record pointing to
-                <code>https://{{ redirect.subdomain }}.301redirect.to</code> in your DNS settings via your domain
-                registrar.
+                Add a <code>CNAME</code> record pointing to <code>{{ redirect.subdomain }}.301redirect.to</code> in your
+                DNS settings via your domain registrar.
               </li>
               <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
             </ol>

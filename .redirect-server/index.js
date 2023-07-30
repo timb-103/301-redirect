@@ -28,7 +28,7 @@ const server = http.createServer(async (req, res) => {
   try {
     // ping googles dns api for CNAME records
     const domain = req.headers.host
-    const response = await ofetch(`https://dns.google/resolve?type=CNAME&name=twillyy.com`)
+    const response = await ofetch(`https://dns.google/resolve?type=CNAME&name=${domain}`)
 
     // return if no response
     if (!response?.Answer?.length) {

@@ -103,34 +103,6 @@ import { Redirect } from 'types/redirect'
 // add page meta
 useSeoMeta({ title: '301 Redirect Tool' })
 
-/**
- * Server side function to check the subdomain and if there's one search for it and do a
- * redirect otherwise return a 404 error
- */
-
-const subdomainHost = useSubdomain()
-
-if (subdomainHost) {
-  // find the redirect
-  const { data } = await useAsyncData('subdomain', async () => {
-    const response = await $fetch('/api/redirects/redirect', {
-      method: 'POST',
-      body: {
-        subdomain: subdomainHost,
-      },
-    })
-    return response?.url || null
-  })
-
-  // redirect if redirect found
-  if (data.value) {
-    navigateTo(data.value, { external: true, redirectCode: 301 })
-  }
-
-  // throw 404 error otherwise
-  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
-}
-
 const loading = ref(false)
 const subdomain = ref('')
 const url = ref('')

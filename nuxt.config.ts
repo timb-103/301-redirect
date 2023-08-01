@@ -2,6 +2,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   extends: ['nuxt-mongodb'],
+  modules: ['nuxt-simple-css'],
+  nuxtSimpleCSS: {
+    accent: '#000',
+  },
   app: {
     head: {
       charset: 'utf-8',

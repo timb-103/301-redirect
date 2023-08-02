@@ -35,7 +35,7 @@
 
       <!-- Open Search Link -->
       <div>
-        <a href="" @click.prevent="showSearch = true">Looking for your redirect?</a>
+        <a href="/?redirect=" @click.prevent="showSearch = true">Looking for your redirect?</a>
       </div>
     </form>
 

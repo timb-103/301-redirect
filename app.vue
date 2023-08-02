@@ -154,6 +154,9 @@ async function create() {
 
   loading.value = true
 
+  // add plausible event
+  useTrackEvent('createRedirect')
+
   try {
     const response = await $fetch<Redirect>('/api/redirects/create', {
       method: 'POST',
@@ -165,7 +168,6 @@ async function create() {
 
     redirect.value = response
   } catch (error: any) {
-    console.log('Error:', error.statusMessage || error.message)
     errors.value = error.statusMessage || error.message
   }
 

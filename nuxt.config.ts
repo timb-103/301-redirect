@@ -2,9 +2,12 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   extends: ['nuxt-mongodb'],
-  modules: ['nuxt-simple-css'],
+  modules: ['nuxt-simple-css', '@nuxtjs/plausible'],
   nuxtSimpleCSS: {
     accent: '#000',
+  },
+  plausible: {
+    domain: '301redirect.to',
   },
   app: {
     head: {
@@ -41,7 +44,6 @@ export default defineNuxtConfig({
           content: 'Create free 301 redirects for your websites. No login required & open source.',
         },
       ],
-      script: [{ src: 'https://plausible.io/js/plausible.js', defer: true, 'data-domain': '301redirect.to' }],
       link: [
         {
           rel: 'icon',

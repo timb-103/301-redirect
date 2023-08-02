@@ -1,119 +1,121 @@
 <template>
-  <h1>301 Redirect Tool</h1>
-  <!-- prettier-ignore -->
-  <p>Create free 301 redirects for your websites. <mark>100% free</mark>, <em>no login required</em> & <a href="https://github.com/timb-103/301-redirect" target="_blank">open source</a>.</p>
+  <main>
+    <h1>301 Redirect Tool</h1>
+    <!-- prettier-ignore -->
+    <p>Create free 301 redirects for your websites. <mark>100% free</mark>, <em>no login required</em> & <a href="https://github.com/timb-103/301-redirect" target="_blank">open source</a>.</p>
 
-  <!-- Create Form -->
-  <form @submit.prevent="create()" v-if="!showSearch && !redirect" class="notice">
-    <div>
-      <label>1. Enter a name</label>
-      <input
-        type="text"
-        v-model="subdomain"
-        placeholder="Enter a subdomain (aka name), eg: acme"
-        style="width: 400px"
-      />
-    </div>
-    <div>
-      <label>2. Redirect to URL</label>
-      <input
-        type="text"
-        v-model="url"
-        placeholder="Enter a URL to redirect to, eg: https://acme.com"
-        style="width: 450px"
-      />
-    </div>
-
-    <!-- Errors -->
-    <div v-if="errors">
-      <code>{{ errors }}</code>
-    </div>
-
-    <!-- Submit Button -->
-    <button type="submit" :disabled="loading">Create Redirect</button>
-
-    <!-- Open Search Link -->
-    <div>
-      <a href="" @click.prevent="showSearch = true">Looking for your redirect?</a>
-    </div>
-  </form>
-
-  <!-- Search -->
-  <div v-if="showSearch && !redirect" class="notice">
-    <form @submit.prevent="search()">
-      <!-- Search Input -->
+    <!-- Create Form -->
+    <form @submit.prevent="create()" v-if="!showSearch && !redirect" class="notice">
       <div>
+        <label>1. Enter a name</label>
         <input
           type="text"
-          v-model="searchQuery"
-          placeholder="Enter your redirect subdomain/name, eg. acme"
+          v-model="subdomain"
+          placeholder="Enter a subdomain (aka name), eg: acme"
+          style="width: 400px"
+        />
+      </div>
+      <div>
+        <label>2. Redirect to URL</label>
+        <input
+          type="text"
+          v-model="url"
+          placeholder="Enter a URL to redirect to, eg: https://acme.com"
           style="width: 450px"
         />
       </div>
 
-      <!-- Search Errors -->
-      <div v-if="searchErrors">
-        <code>{{ searchErrors }}</code>
+      <!-- Errors -->
+      <div v-if="errors">
+        <code>{{ errors }}</code>
       </div>
 
-      <!-- Search Button -->
-      <button type="submit" :disabled="loading">Search</button>
+      <!-- Submit Button -->
+      <button type="submit" :disabled="loading">Create Redirect</button>
+
+      <!-- Open Search Link -->
+      <div>
+        <a href="" @click.prevent="showSearch = true">Looking for your redirect?</a>
+      </div>
     </form>
-    <!-- Back Button -->
-    <div>
-      <a href="" @click.prevent="clear()">Go Back</a>
+
+    <!-- Search -->
+    <div v-if="showSearch && !redirect" class="notice">
+      <form @submit.prevent="search()">
+        <!-- Search Input -->
+        <div>
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Enter your redirect subdomain/name, eg. acme"
+            style="width: 450px"
+          />
+        </div>
+
+        <!-- Search Errors -->
+        <div v-if="searchErrors">
+          <code>{{ searchErrors }}</code>
+        </div>
+
+        <!-- Search Button -->
+        <button type="submit" :disabled="loading">Search</button>
+      </form>
+      <!-- Back Button -->
+      <div>
+        <a href="" @click.prevent="clear()">Go Back</a>
+      </div>
     </div>
-  </div>
 
-  <!-- Success -->
-  <div v-if="redirect" class="notice">
-    <p><strong>Your redirect:</strong></p>
+    <!-- Success -->
+    <div v-if="redirect" class="notice">
+      <p><strong>Your redirect:</strong></p>
+      <p>
+        <!-- prettier-ignore -->
+        <code><strong>https://{{ redirect.subdomain }}.301redirect.to</strong> -> <strong>{{ redirect.url }}</strong></code>
+      </p>
+
+      <p><strong>How does it work?</strong></p>
+      <ol>
+        <li>
+          Add a <strong>CNAME</strong> record, with a <strong>host</strong> of <code>@</code> and
+          <strong>value</strong> of <code>{{ redirect.subdomain }}.301redirect.to</code> in your DNS settings via your
+          domain registrar.
+        </li>
+        <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
+      </ol>
+
+      <button @click="clear()">Go Back</button>
+    </div>
+
+    <!-- How it works -->
+
+    <p><strong>Why use this 301 redirect tool?</strong></p>
+    <ul>
+      <li>✅ <strong>100% free</strong>, no login required</li>
+      <li>💸 No need to host a server</li>
+      <li>🤖 Great for <strong>SEO</strong></li>
+    </ul>
     <p>
-      <!-- prettier-ignore -->
-      <code><strong>https://{{ redirect.subdomain }}.301redirect.to</strong> -> <strong>{{ redirect.url }}</strong></code>
+      Over the years I've acquired many websites and
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301" target="_blank">
+        <strong>301 redirected</strong>
+      </a>
+      them to another website. Each time this requires setting up a server to host a simple redirect server to point the
+      traffic somewhere else.
     </p>
+    <p>This means for each website I want to redirect, I need to host a server, which costs money.</p>
 
-    <p><strong>How does it work?</strong></p>
-    <ol>
-      <li>
-        Add a <strong>CNAME</strong> record, with a <strong>host</strong> of <code>@</code> and
-        <strong>value</strong> of <code>{{ redirect.subdomain }}.301redirect.to</code> in your DNS settings via your
-        domain registrar.
-      </li>
-      <li>Wait for it to propogate, it can take up to 24 hours but usually much faster.</li>
-    </ol>
-
-    <button @click="clear()">Go Back</button>
-  </div>
-
-  <!-- How it works -->
-
-  <p><strong>Why use this 301 redirect tool?</strong></p>
-  <ul>
-    <li>✅ <strong>100% free</strong>, no login required</li>
-    <li>💸 No need to host a server</li>
-    <li>🤖 Great for <strong>SEO</strong></li>
-  </ul>
-  <p>
-    Over the years I've acquired many websites and
-    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301" target="_blank">
-      <strong>301 redirected</strong>
-    </a>
-    them to another website. Each time this requires setting up a server to host a simple redirect server to point the
-    traffic somewhere else.
-  </p>
-  <p>This means for each website I want to redirect, I need to host a server, which costs money.</p>
-
-  <p><strong>This tool will do the redirect for you.</strong></p>
-  <p>
-    All you do is add a
-    <a href="https://en.wikipedia.org/wiki/CNAME_record" target="_blank">
-      <strong>CNAME</strong>
-    </a>
-    record in your domain registrar pointing to the subdomain you choose, and we'll automatically 301 redirect it for
-    you.
-  </p>
-  <p>No need to host anything, and it's completely free!</p>
+    <p><strong>This tool will do the redirect for you.</strong></p>
+    <p>
+      All you do is add a
+      <a href="https://en.wikipedia.org/wiki/CNAME_record" target="_blank">
+        <strong>CNAME</strong>
+      </a>
+      record in your domain registrar pointing to the subdomain you choose, and we'll automatically 301 redirect it for
+      you.
+    </p>
+    <p>No need to host anything, and it's completely free!</p>
+  </main>
 </template>
 
 <script setup lang="ts">

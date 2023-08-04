@@ -1,5 +1,6 @@
 import type { Redirect } from '@/types/redirect'
 import { ObjectId } from 'mongodb'
+import { mongo } from '#mongodb'
 
 export default defineEventHandler(async (event) => {
   const db = mongo.db()

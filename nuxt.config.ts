@@ -1,8 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
-  extends: ['nuxt-mongodb'],
-  modules: ['nuxt-simple-css', '@nuxtjs/plausible'],
+  modules: ['nuxt-simple-css', '@nuxtjs/plausible', 'nuxt-mongodb'],
   nuxtSimpleCSS: {
     accent: '#000',
   },
